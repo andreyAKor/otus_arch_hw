@@ -13,6 +13,7 @@ test:
 
 install-deps:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint
+	GO111MODULE=on go get github.com/golang/mock/mockgen@latest
 
 lint: install-deps
 	golangci-lint run ./...
