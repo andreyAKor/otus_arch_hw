@@ -1,4 +1,4 @@
-package adapters
+package adapters //nolint:dupl
 
 import (
 	"github.com/andreyAKor/otus_arch_hw/hw01/actions"
@@ -11,31 +11,37 @@ const (
 	UnitAngularVelocity = "angularVelocity"
 )
 
-var _ actions.Rotable = (*Rotable)(nil)
+var _ actions.Rotable = (*rotable)(nil)
 
-// Адаптер поворота
-type Rotable struct {
+// Адаптер поворота.
+type rotable struct {
 	storage repository.Storager
 }
 
-func NewRotable(s repository.Storager) *Rotable {
-	return &Rotable{s}
+func NewRotable(storage repository.Storager) (actions.Rotable, error) {
+	if storage == nil {
+		return nil, ErrStorageNil
+	}
+
+	return &rotable{storage}, nil
 }
 
-func (r *Rotable) SetDirection(v *geometry.Vector) {
+func (r *rotable) SetDirection(v *geometry.Vector) {
 	r.storage.Set(UnitDirection, v)
 }
 
-func (r *Rotable) GetDirection() *geometry.Vector {
+func (r *rotable) GetDirection() *geometry.Vector {
 	if v, ok := r.storage.Get(UnitDirection).(*geometry.Vector); ok {
 		return v
 	}
+
 	return nil
 }
 
-func (r *Rotable) GetAngularVelocity() *geometry.Vector {
+func (r *rotable) GetAngularVelocity() *geometry.Vector {
 	if v, ok := r.storage.Get(UnitAngularVelocity).(*geometry.Vector); ok {
 		return v
 	}
+
 	return nil
 }

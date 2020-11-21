@@ -1,11 +1,13 @@
 package geometry
 
-// Вектор
+// Вектор.
 type Vector struct {
-	Start Point
-	End   Point
+	X, Y float64
 }
 
-func (v *Vector) Add(v2 *Vector) *Vector {
-	return v // TODO: реализовать сложение векторов
+func (v Vector) Add(ov Vector) Vector {
+	return Vector{
+		X: v.X + ov.X,
+		Y: v.Y + ov.Y,
+	}
 }

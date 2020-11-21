@@ -1,16 +1,51 @@
 package actions
 
-var _ Doer = (*Move)(nil)
+import (
+	"errors"
 
-// Структура движения
-type Move struct {
+	"github.com/andreyAKor/otus_arch_hw/hw01/geometry"
+)
+
+var (
+	ErrPositionNil = errors.New("position is nil")
+	ErrVelocityNil = errors.New("velocity is nil")
+
+	_ Doer = (*move)(nil)
+)
+
+//go:generate mockgen -source=$GOFILE -destination ./mocks/mock_movable.go -package mocks Movable
+// Движение.
+type Movable interface {
+	// Позиция.
+	SetPosition(v *geometry.Vector)
+	GetPosition() *geometry.Vector
+
+	// Скорость.
+	GetVelocity() *geometry.Vector
+}
+
+// Структура движения.
+type move struct {
 	m Movable
 }
 
-func NewMove(m Movable) *Move {
-	return &Move{m}
+func NewMove(m Movable) Doer {
+	return &move{m}
 }
 
-func (m *Move) Do() {
-	m.m.SetPosition(m.m.GetPosition().Add(m.m.GetVelocity()))
+func (m *move) Do() error {
+	p := m.m.GetPosition()
+	if p == nil {
+		return ErrPositionNil
+	}
+
+	v := m.m.GetVelocity()
+	if v == nil {
+		return ErrVelocityNil
+	}
+
+	*p = p.Add(*v)
+	m.m.SetPosition(p)
+
+	return nil
 }
