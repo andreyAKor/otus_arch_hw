@@ -39,6 +39,7 @@ jobs:
       name: "Makefile"
       install: go mod download
       script:
+        - make install
         - make lint
         - make generate
         - make test
