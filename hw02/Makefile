@@ -20,4 +20,7 @@ lint: install-deps
 install:
 	go mod download
 
+generate:
+	go generate ./...
+
 .PHONY: build
