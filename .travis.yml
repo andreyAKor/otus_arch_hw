@@ -44,3 +44,4 @@ jobs:
         - make generate
         - make test
         - make build
+        - make run
