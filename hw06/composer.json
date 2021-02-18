@@ -1,0 +1,13 @@
+{
+    "autoload": {
+        "psr-4": {
+            "classes\\": "classes/"
+        }
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.3",
+        "mockery/mockery": "^1.4"
+    }
+}
