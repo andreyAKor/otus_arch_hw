@@ -14,16 +14,17 @@ type binetOperation struct {
 	operation
 }
 
+//nolint:exhaustivestruct
 func newBinetOperation(limit int) OperationIface {
-	b := &binetOperation{
+	bo := &binetOperation{
 		operation: operation{
 			limit:   limit,
 			counter: 0,
 		},
 	}
-	b.operation.iterator = iterator.New(b.next)
+	bo.operation.iterator = iterator.New(bo.next)
 
-	return b
+	return bo
 }
 
 func (b *binetOperation) next() (int, error) {

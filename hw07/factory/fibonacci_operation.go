@@ -11,19 +11,21 @@ var _ OperationIface = (*fibonacciOperation)(nil)
 // Конкретный продукт для Фибоначчи.
 type fibonacciOperation struct {
 	operation
-	f func() int
+	fn func() int
 }
 
+//nolint:exhaustivestruct
 func newFibonacciOperation(limit int) OperationIface {
-	f := &fibonacciOperation{
+	fo := &fibonacciOperation{
 		operation: operation{
-			limit: limit,
+			limit:   limit,
+			counter: 0,
 		},
 	}
-	f.f = f.iterationFunc()
-	f.operation.iterator = iterator.New(f.next)
+	fo.fn = fo.iterationFunc()
+	fo.operation.iterator = iterator.New(fo.next)
 
-	return f
+	return fo
 }
 
 func (f *fibonacciOperation) next() (int, error) {
@@ -33,7 +35,7 @@ func (f *fibonacciOperation) next() (int, error) {
 
 	f.operation.counter++
 
-	return f.f(), nil
+	return f.fn(), nil
 }
 
 func (f fibonacciOperation) iterationFunc() func() int {
