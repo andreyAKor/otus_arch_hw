@@ -34,6 +34,9 @@ jobs:
       name: "go get"
       install: echo "skip"
       script: cd /tmp && go get "github.com/${TRAVIS_REPO_SLUG}/${BRANCH}@${BRANCH}"
+      if: |
+        (type = push AND branch != hw06) OR \
+        (type = pull_request AND head_branch != hw06)
 
     - stage: "Tests"
       name: "Makefile"
@@ -44,3 +47,6 @@ jobs:
         - make generate
         - make test
         - make build
+      if: |
+        (type = push AND branch != hw06) OR \
+        (type = pull_request AND head_branch != hw06)
