@@ -3,7 +3,7 @@
 namespace classes\matrix;
 
 /**
- * Class MatrixAddition
+ * Class MatrixGenarator
  * @package classes\matrix
  */
 final class MatrixAddition extends AbstractTemplate

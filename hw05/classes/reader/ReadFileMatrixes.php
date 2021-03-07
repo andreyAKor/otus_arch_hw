@@ -6,12 +6,17 @@ namespace classes\reader;
  * Class ReadFileMatrixes
  * @package classes\reader
  */
-final class ReadFile implements ReaderInterface
+final class ReadFileMatrixes implements ReaderInterface
 {
+    /**
+     *
+     */
+    private const MATRIX_SERPARATOR = '---';
+
     /**
      * @var string
      */
-    private $fileName = '';
+    private string $fileName;
 
     /**
      * ReadFileMatrixes constructor.
@@ -31,9 +36,18 @@ final class ReadFile implements ReaderInterface
             throw new \Exception(sprintf('Open csv-file is failing: %s', $this->fileName));
         }
 
-        $matrix = [];
+        $matrixes = [[]];
+        $matrixIterator = 0;
+
         while (($data = fgetcsv($handle)) !== false) {
-            $matrix[] = array_map(function (string $item) {
+            if (isset($data[0]) && trim($data[0]) == self::MATRIX_SERPARATOR) {
+                $matrixIterator++;
+                $matrixes[$matrixIterator] = [];
+
+                continue;
+            }
+
+            $matrixes[$matrixIterator][] = array_map(function (string $item) {
                 return trim($item);
             }, $data);
         }
@@ -42,6 +56,6 @@ final class ReadFile implements ReaderInterface
             throw new \Exception(sprintf('Close csv-file is failing: %s', $this->fileName));
         }
 
-        return $matrix;
+        return $matrixes;
     }
 }

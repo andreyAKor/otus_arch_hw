@@ -3,18 +3,23 @@
 namespace classes\writer;
 
 /**
- * Class WriteFileMatrixAddition
+ * Class WriteFileMatrixes
  * @package classes\writer
  */
-final class WriteFile implements WriterInterface
+final class WriteFileMatrixes implements WriterInterface
 {
+    /**
+     *
+     */
+    private const MATRIX_SERPARATOR = '---';
+
     /**
      * @var string
      */
-    private $fileName = '';
+    private string $fileName;
 
     /**
-     * ReadFileMatrixes constructor.
+     * ReadFile constructor.
      * @param string $fileName
      */
     public function __construct(string $fileName)
@@ -23,23 +28,26 @@ final class WriteFile implements WriterInterface
     }
 
     /**
-     * @param string $content
+     * @param array $matrixes
+     * @throws \Exception
      */
-    public function Write(array $matrix): void
+    public function Write(array $matrixes): void
     {
         if (($handle = fopen($this->fileName, 'w')) == false) {
             throw new \Exception(sprintf('Open csv-file is failing: %s', $this->fileName));
         }
 
-        if (count($matrix) > 1) {
+        foreach ($matrixes as $idx => $matrix) {
+            if ($idx) {
+                if (!fputs($handle, self::MATRIX_SERPARATOR . PHP_EOL)) {
+                    throw new \Exception(sprintf('Write serparator to csv-file is failing: %s', $this->fileName));
+                }
+            }
+
             foreach ($matrix as $row) {
                 if (!fputcsv($handle, $row)) {
                     throw new \Exception(sprintf('Write to csv-file is failing: %s', $this->fileName));
                 }
-            }
-        } else {
-            if (!fputcsv($handle, $matrix)) {
-                throw new \Exception(sprintf('Write to csv-file is failing: %s', $this->fileName));
             }
         }
 
