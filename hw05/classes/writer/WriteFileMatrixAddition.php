@@ -6,12 +6,12 @@ namespace classes\writer;
  * Class WriteFileMatrixAddition
  * @package classes\writer
  */
-final class WriteFile implements WriterInterface
+final class WriteFileMatrixAddition implements WriterInterface
 {
     /**
      * @var string
      */
-    private $fileName = '';
+    private string $fileName;
 
     /**
      * ReadFileMatrixes constructor.

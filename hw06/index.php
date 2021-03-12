@@ -2,12 +2,12 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use classes\matrix\AbstractTemplate;
-use classes\matrix\MatrixAddition;
+use classes\matrix\MatrixGenarator;
 use classes\matrix\MatrixDeterminant;
 use classes\matrix\TransposeMatrix;
 use classes\reader\ReaderInterface;
-use classes\reader\ReadFile;
-use classes\writer\WriteFile;
+use classes\reader\ReadFileMatrixes;
+use classes\writer\WriteFileMatrixAddition;
 use classes\writer\WriterInterface;
 
 if (count($argv) != 4) {
@@ -26,14 +26,14 @@ try {
 
 function run(string $inFile, string $outFile, string $operation)
 {
-    getObjectByOperation(new ReadFile($inFile), new WriteFile($outFile), $operation)->Run();
+    getObjectByOperation(new ReadFileMatrixes($inFile), new WriteFileMatrixAddition($outFile), $operation)->Run();
 }
 
 function getObjectByOperation(ReaderInterface $reader, WriterInterface $writer, string $operation): AbstractTemplate
 {
     switch ($operation) {
         case 'addition':
-            return new MatrixAddition($reader, $writer);
+            return new MatrixGenarator($reader, $writer);
         case 'transpose':
             return new TransposeMatrix($reader, $writer);
         case 'determinant':
