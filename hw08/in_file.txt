@@ -1,0 +1,5 @@
+file.xml
+file.json
+file.csv
+file.txt
+file.gif
